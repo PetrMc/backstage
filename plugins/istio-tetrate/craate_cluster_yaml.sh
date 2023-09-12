@@ -1,12 +1,13 @@
 #!/bin/bash
 
+output_file_name=kubernetes.yaml
 # Initialize YAML file
-echo "kubernetes:" > output.yaml
-echo "  serviceLocatorMethod:" >> output.yaml
-echo "    type: 'multiTenant'" >> output.yaml
-echo "  clusterLocatorMethods:" >> output.yaml
-echo "    - type: 'config'" >> output.yaml
-echo "      clusters:" >> output.yaml
+echo "kubernetes:" > "$output_file_name"
+echo "  serviceLocatorMethod:" >> "$output_file_name"
+echo "    type: 'multiTenant'" >> "$output_file_name"
+echo "  clusterLocatorMethods:" >> "$output_file_name"
+echo "    - type: 'config'" >> "$output_file_name"
+echo "      clusters:" >> "$output_file_name"
 
 clusters=$(kubectl config view -o json | jq -r '.clusters[] | "\(.name) \(.cluster.server)"')
 
@@ -46,11 +47,11 @@ echo "$clusters" | while read -r line; do
       fi
     
       if [ -n "$control_plane" ]; then
-        echo "        - url: $control_plane" >> output.yaml
-        echo "          name: $short_cluster_name" >> output.yaml
-        echo "          skipTLSVerify: true" >> output.yaml
-        echo "          authProvider: 'aws'" >> output.yaml
-        echo "          skipMetricsLookup: true" >> output.yaml
+        echo "        - url: $control_plane" >> "$output_file_name"
+        echo "          name: $short_cluster_name" >> "$output_file_name"
+        echo "          skipTLSVerify: true" >> "$output_file_name"
+        echo "          authProvider: 'aws'" >> "$output_file_name"
+        echo "          skipMetricsLookup: true" >> "$output_file_name"
       else
         echo "Warning: No control plane found for cluster $short_cluster_name"
       fi

@@ -14,11 +14,8 @@
  * limitations under the License.
  */
 import React, { useEffect, useState } from 'react';
-import {
-  useApi,
-  configApiRef,
-  discoveryApiRef,
-} from '@backstage/core-plugin-api';
+import { useApi, discoveryApiRef } from '@backstage/core-plugin-api';
+import appConfig from './kubernetes.yaml';
 import yaml from 'js-yaml';
 
 interface ClusterDropdownProps {
@@ -28,29 +25,33 @@ interface ClusterDropdownProps {
 const ClusterDropdown: React.FC<ClusterDropdownProps> = ({ onChange }) => {
   const [error, setError] = React.useState(null);
   const [clusters, setClusters] = useState<string[]>([]);
-
-  const configApi = useApi(configApiRef);
+  try {
+    const config = yaml.load(appConfig);
+  } catch (e) {
+    setError('Error parsing YAML:', e);
+  }
+  const discoveryApi = useApi(discoveryApiRef);
 
   useEffect(() => {
     try {
-      // Retrieve configuration using configApi
-      const clusterLocatorMethods = configApi.getOptional(
-        'kubernetes.clusterLocatorMethods',
-      );
+      const config = appConfig;
       if (
-        clusterLocatorMethods &&
-        clusterLocatorMethods[0] &&
-        clusterLocatorMethods[0].clusters
+        config &&
+        config.kubernetes &&
+        config.kubernetes.clusterLocatorMethods &&
+        config.kubernetes.clusterLocatorMethods[0] &&
+        config.kubernetes.clusterLocatorMethods[0].clusters
       ) {
-        const clusterNames = clusterLocatorMethods[0].clusters.map(
-          cluster => cluster.name,
-        );
+        const clusterNames =
+          config.kubernetes.clusterLocatorMethods[0].clusters.map(
+            cluster => cluster.name,
+          );
         setClusters(clusterNames);
       }
     } catch (err) {
-      setError('Error retrieving configuration:', err);
+      setError('Error parsing YAML:', err);
     }
-  }, [configApi]);
+  }, []);
 
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCluster = event.target.value;
