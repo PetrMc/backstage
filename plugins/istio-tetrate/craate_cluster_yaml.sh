@@ -21,6 +21,7 @@ echo "$clusters" | while read -r line; do
   if [[ $server == *eks.amazonaws.com* ]]; then
     
     # Check if the name starts with "arn:"
+    echo $full_cluster_name
     if [[ $full_cluster_name == arn:* ]]; then
       short_cluster_name="$full_cluster_name"
     else
@@ -30,10 +31,10 @@ echo "$clusters" | while read -r line; do
       # Remove everything from the first '.' to the end
       short_cluster_name=${short_cluster_name%%.*}
     fi
+echo $short_cluster_name
     
     # If no '@' or 'arn:', set short_cluster_name as empty.
-    [[ $short_cluster_name == $full_cluster_name ]] && unset short_cluster_name
-
+    # [[ $short_cluster_name == $full_cluster_name ]] && unset short_cluster_name
     # If short_cluster_name exists, continue.
     if [ -n "$short_cluster_name" ]; then
       context_name=$(kubectl config get-contexts --output=name | grep "$short_cluster_name")
