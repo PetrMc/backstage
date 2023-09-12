@@ -1,5 +1,5 @@
 app:
-  title: Backstage Example App
+  title: Backstage Istio Dashboard by Tetrate
   baseUrl: http://localhost:3000
   #datadogRum:
   #  clientToken: '123456789'
@@ -172,7 +172,32 @@ kubernetes:
     type: 'multiTenant'
   clusterLocatorMethods:
     - type: 'config'
-      clusters: []
+      clusters:
+        - url: https://F3EED4CB59B4DC1125572F53FCB6A7B4.gr7.us-east-2.eks.amazonaws.com
+          name: aws-smartsheet-demo
+          skipTLSVerify: true
+          authProvider: 'aws'
+          skipMetricsLookup: true
+        - url: https://7DD807511C7CFD932662C57A68286C24.gr7.ap-northeast-2.eks.amazonaws.com
+          name: tid-118-test
+          skipTLSVerify: true
+          authProvider: 'aws'
+          skipMetricsLookup: true
+        - url: https://F714D72C8F2D104A753FFD69B47E34DC.gr7.us-east-1.eks.amazonaws.com
+          name: tse-cluster-01
+          skipTLSVerify: true
+          authProvider: 'aws'
+          skipMetricsLookup: true
+        - url: https://7703ABD069C9F07D63EC379C85FFB18C.gr7.us-east-2.eks.amazonaws.com
+          name: tse-cluster-02
+          skipTLSVerify: true
+          authProvider: 'aws'
+          skipMetricsLookup: true
+        - url: https://390E6DC5D5769DBB537C2A607C59176E.sk1.ca-central-1.eks.amazonaws.com
+          name: tse-edge
+          skipTLSVerify: true
+          authProvider: 'aws'
+          skipMetricsLookup: true
 
 kafka:
   clientId: backstage
@@ -464,3 +489,4 @@ stackstorm:
 
 permission:
   enabled: true
+

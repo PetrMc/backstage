@@ -112,6 +112,7 @@ import { PuppetDbPage } from '@backstage/plugin-puppetdb';
 import { DevToolsPage } from '@backstage/plugin-devtools';
 import { customDevToolsPage } from './components/devtools/CustomDevToolsPage';
 import { CatalogUnprocessedEntitiesPage } from '@backstage/plugin-catalog-unprocessed-entities';
+import { IstioDashboardPage } from '@internal/istio-tetrate';
 
 const app = createApp({
   apis,
@@ -219,6 +220,7 @@ const routes = (
         <LightBox />
       </TechDocsAddons>
     </Route>
+
     <FeatureFlagged with="scaffolder-next-preview">
       <Route
         path="/create"
@@ -299,6 +301,7 @@ const routes = (
     <Route path="/score-board" element={<ScoreBoardPage />} />
     <Route path="/stackstorm" element={<StackstormPage />} />
     <Route path="/puppetdb" element={<PuppetDbPage />} />
+    <Route path="/istio" element={<IstioDashboardPage />} />
     <Route path="/devtools" element={<DevToolsPage />}>
       {customDevToolsPage}
     </Route>
