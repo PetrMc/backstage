@@ -1,0 +1,9 @@
+app:
+  baseUrl: http://backstage.demos.partners.tetrate.io:81
+
+backend:
+  baseUrl: http://backstage.demos.partners.tetrate.io
+  listen:
+    port: 80
+  cors:
+    origin: http://backstage.demos.partners.tetrate.io:81/
